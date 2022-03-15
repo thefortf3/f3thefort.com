@@ -2,6 +2,31 @@
 
 /* Start loading custom js and css */
 
+function fort_register_meta_api() {
+	// Meta Fields to add to the API
+	$meta_fields = array(
+		'qic',
+		'workout_date'
+	);
+	// Loop all fields and register each of them to the API
+	foreach ($meta_fields as $field) {
+		register_rest_field( 'post',
+			$field,
+			array(
+				'get_callback'    => function ($params) use ($field) {
+					return get_post_meta($params['id'], $field);
+				},
+				'update_callback' => function ($value, $object, $fieldName){
+					return update_post_meta($object->ID, $fieldName, $value);
+				},
+				'schema' => null
+			)
+		);
+	}
+}
+
+add_action( 'rest_api_init', 'fort_register_meta_api' );
+
 // add bootstrap js and theme js to the header
 function scripts_load_bootstrap_and_custom_js()
 {
