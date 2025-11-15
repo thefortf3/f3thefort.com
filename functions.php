@@ -86,9 +86,9 @@ function add_nav_menu_items($items) {
       $items = $items. '<li class="right-nav menu-item login-link"><a href="/wp-login.php">Login</a></li>';
     }
     if(!wp_is_mobile()) {
-      $twitterlink= '<li class="right-nav menu-item"><a href="https://www.twitter.com/F3thefort"><i class="fa fa-twitter"></i></a></li>';
+      $instagramlink= '<li class="right-nav menu-item"><a href="https://www.instagram.com/f3_the_fort/"><i class="fa fa-instagram"></i></a></li>';
       $slacklink= '<li class="right-nav menu-item"><a href="https://f3thefort.slack.com/"><i class="fa fa-slack"></i></a></li>';
-      $items = $items . $twitterlink . $slacklink;
+      $items = $items . $instagramlink . $slacklink;
     }
     return $items;
 }
