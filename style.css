@@ -294,7 +294,6 @@ div.tclap_spinner img {
 }
 
 #upcoming-events .events-list li {
-  padding: 12px 20px;
   margin-bottom: 8px;
   background-color: white;
   border-left: 4px solid red;
@@ -306,6 +305,14 @@ div.tclap_spinner img {
   background-color: #f0f0f0;
 }
 
+#upcoming-events .event-link {
+  display: block;
+  padding: 12px 20px;
+  color: #333;
+  text-decoration: none;
+  width: 100%;
+}
+
 #upcoming-events .event-date {
   font-weight: bold;
   color: red;
@@ -313,12 +320,11 @@ div.tclap_spinner img {
   display: inline-block;
 }
 
-#upcoming-events .events-list a {
+#upcoming-events .event-title {
   color: #333;
-  text-decoration: none;
 }
 
-#upcoming-events .events-list a:hover {
+#upcoming-events .events-list a:hover .event-title {
   color: red;
   text-decoration: underline;
 }
