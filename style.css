@@ -309,7 +309,7 @@ div.tclap_spinner img {
 #upcoming-events .event-link {
   display: block;
   padding: 12px 20px;
-  color: rgb(100, 0, 0);
+  color: #333;
   text-decoration: none;
   width: 100%;
 }
@@ -321,7 +321,7 @@ div.tclap_spinner img {
 }
 
 #upcoming-events .event-title {
-  color: rgb(100, 0, 0);
+  color: #333;
 }
 
 #upcoming-events .events-list a:hover .event-title {
