@@ -341,25 +341,17 @@ add_filter('widget_tag_cloud_args','set_widget_tag_cloud_args');
  * @return string HTML output for upcoming events section
  */
 function fort_get_upcoming_preblasts() {
-	// Get today's date in the same format as stored (m/d/Y)
-	$today = date('m/d/Y');
+	// Get today's timestamp for comparison (start of day)
+	$today_timestamp = strtotime('today');
 	
-	// Query for Pre-Blast posts with future workout_date
+	// Query for all Pre-Blast posts (we'll filter by date in PHP)
 	$args = array(
 		'category_name'  => 'pre-blast',
 		'post_status'    => 'publish',
-		'posts_per_page' => -1,  // All future events
+		'posts_per_page' => -1,  // Get all pre-blasts
 		'meta_key'       => 'workout_date',
 		'orderby'        => 'meta_value',
-		'order'          => 'ASC',
-		'meta_query'     => array(
-			array(
-				'key'     => 'workout_date',
-				'value'   => $today,
-				'compare' => '>=',
-				'type'    => 'DATE'
-			)
-		)
+		'order'          => 'ASC'
 	);
 	
 	$preblasts = new WP_Query($args);
@@ -369,23 +361,38 @@ function fort_get_upcoming_preblasts() {
 	$output .= '  <div class="container">';
 	$output .= '    <h2>Upcoming Events</h2>';
 	
+	$has_future_events = false;
+	$events_html = '';
+	
 	if ($preblasts->have_posts()) {
-		$output .= '    <ul class="events-list">';
-		
 		while ($preblasts->have_posts()) {
 			$preblasts->the_post();
 			
-			// Get workout date and format it as "Tue, Apr 15"
+			// Get workout date
 			$workout_date = get_post_meta(get_the_ID(), 'workout_date', true);
-			$formatted_date = date('D, M j', strtotime($workout_date));
 			
-			// Build list item
-			$output .= '      <li>';
-			$output .= '        <span class="event-date">' . esc_html($formatted_date) . '</span> - ';
-			$output .= '        <a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
-			$output .= '      </li>';
+			// Convert workout_date to timestamp for comparison
+			$workout_timestamp = strtotime($workout_date);
+			
+			// Only include events with future or today's date
+			if ($workout_timestamp >= $today_timestamp) {
+				$has_future_events = true;
+				
+				// Format date as "Tue, Apr 15"
+				$formatted_date = date('D, M j', $workout_timestamp);
+				
+				// Build list item
+				$events_html .= '      <li>';
+				$events_html .= '        <span class="event-date">' . esc_html($formatted_date) . '</span> - ';
+				$events_html .= '        <a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
+				$events_html .= '      </li>';
+			}
 		}
-		
+	}
+	
+	if ($has_future_events) {
+		$output .= '    <ul class="events-list">';
+		$output .= $events_html;
 		$output .= '    </ul>';
 	} else {
 		$output .= '    <p class="no-events">No upcoming events</p>';
