@@ -333,5 +333,72 @@ add_filter('widget_tag_cloud_args','set_widget_tag_cloud_args');
 
 /* End tag cloud customization */
 
+/* Start Upcoming Pre-Blasts Section */
+/**
+ * Function to query and display upcoming pre-blast posts
+ * Shows all pre-blasts with workout_date >= today, ordered by date ascending
+ * 
+ * @return string HTML output for upcoming events section
+ */
+function fort_get_upcoming_preblasts() {
+	// Get today's date in the same format as stored (m/d/Y)
+	$today = date('m/d/Y');
+	
+	// Query for Pre-Blast posts with future workout_date
+	$args = array(
+		'category_name'  => 'pre-blast',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,  // All future events
+		'meta_key'       => 'workout_date',
+		'orderby'        => 'meta_value',
+		'order'          => 'ASC',
+		'meta_query'     => array(
+			array(
+				'key'     => 'workout_date',
+				'value'   => $today,
+				'compare' => '>=',
+				'type'    => 'DATE'
+			)
+		)
+	);
+	
+	$preblasts = new WP_Query($args);
+	
+	// Build HTML output
+	$output = '<div id="upcoming-events" class="upcoming-events">';
+	$output .= '  <div class="container">';
+	$output .= '    <h2>Upcoming Events</h2>';
+	
+	if ($preblasts->have_posts()) {
+		$output .= '    <ul class="events-list">';
+		
+		while ($preblasts->have_posts()) {
+			$preblasts->the_post();
+			
+			// Get workout date and format it as "Tue, Apr 15"
+			$workout_date = get_post_meta(get_the_ID(), 'workout_date', true);
+			$formatted_date = date('D, M j', strtotime($workout_date));
+			
+			// Build list item
+			$output .= '      <li>';
+			$output .= '        <span class="event-date">' . esc_html($formatted_date) . '</span> - ';
+			$output .= '        <a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
+			$output .= '      </li>';
+		}
+		
+		$output .= '    </ul>';
+	} else {
+		$output .= '    <p class="no-events">No upcoming events</p>';
+	}
+	
+	$output .= '  </div>';
+	$output .= '</div>';
+	
+	wp_reset_postdata();
+	
+	return $output;
+}
+/* End Upcoming Pre-Blasts Section */
+
 
 ?>
