@@ -161,7 +161,8 @@ footer.entry-meta {
     width: 50%;
   }
   #media-caption {
-    display: none;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
   }
   #welcome-box {
     display: none;
