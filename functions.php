@@ -384,7 +384,7 @@ function fort_get_upcoming_preblasts() {
 				// Build list item with entire item clickable
 				$events_html .= '      <li>';
 				$events_html .= '        <a href="' . esc_url(get_permalink()) . '" class="event-link">';
-				$events_html .= '          <span class="event-date">' . esc_html($formatted_date) . '</span> - ';
+				$events_html .= '          <span class="event-date">' . esc_html($formatted_date) . '</span> ';
 				$events_html .= '          <span class="event-title">' . get_the_title() . '</span>';
 				$events_html .= '        </a>';
 				$events_html .= '      </li>';
