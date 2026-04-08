@@ -347,13 +347,16 @@ div.tclap_spinner img {
   }
   
   #upcoming-events .events-list li {
-    padding: 10px 15px;
     font-size: 1rem;
   }
   
+  #upcoming-events .event-link {
+    padding: 8px 15px;
+  }
+  
   #upcoming-events .event-date {
-    display: block;
-    margin-bottom: 5px;
+    display: inline-block;
+    min-width: auto;
   }
 }
 
