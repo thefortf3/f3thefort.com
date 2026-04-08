@@ -358,6 +358,7 @@ div.tclap_spinner img {
   #upcoming-events .event-date {
     display: inline-block;
     min-width: auto;
+    margin-right: 8px;
   }
 }
 
